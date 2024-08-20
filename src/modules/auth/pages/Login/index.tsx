@@ -1,10 +1,11 @@
-import { Button, Divider, Stack, TextField, Typography } from '@mui/material';
+import { Divider, Stack, TextField, Typography } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useCallback } from 'react';
 import { Link } from '@components/Link';
 import { AuthContainer } from '@modules/auth/components/AuthContainer';
 import { LoginFormData, loginSchema } from '@modules/auth/schemas/loginSchema';
+import { Button } from '@components/Button';
 
 export const Login = () => {
   const {

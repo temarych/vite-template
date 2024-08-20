@@ -1,10 +1,19 @@
-import { styled, Typography } from '@mui/material';
+import { styled } from '@mui/material';
+import { ModeToggle } from '@components/ModeToggle';
+import { useAppDispatch, useAppSelector } from '@store/index';
+import { selectMode, setMode } from '@store/features/theme';
 
-export const Home = () => (
-  <Home.Wrapper>
-    <Typography variant="h6">Home</Typography>
-  </Home.Wrapper>
-);
+export const Home = () => {
+  const dispatch = useAppDispatch();
+
+  const mode = useAppSelector(selectMode);
+
+  return (
+    <Home.Wrapper>
+      <ModeToggle mode={mode} onChange={(mode) => dispatch(setMode(mode))} />
+    </Home.Wrapper>
+  );
+};
 
 Home.Wrapper = styled('div')`
   display: flex;
