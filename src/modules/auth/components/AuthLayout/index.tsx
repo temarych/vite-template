@@ -10,15 +10,21 @@ export const AuthLayout = () => (
 );
 
 AuthLayout.Container = styled(Card)`
-  max-width: 25rem;
   width: 100%;
+
+  ${({ theme }) => theme.breakpoints.up('sm')} {
+    max-width: 25rem;
+    margin: auto;
+  }
+
+  ${({ theme }) => theme.breakpoints.down('sm')} {
+    border: none;
+  }
 `;
 
 AuthLayout.Wrapper = styled('div')`
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
   width: 100vw;
   height: 100vh;
   padding: ${({ theme }) => theme.spacing(2)};
