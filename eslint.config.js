@@ -28,8 +28,18 @@ export default tseslint.config(
       ],
       semi: ['error', 'always'],
       'eol-last': ['error', 'always'],
-      'import/order': ['error'],
+      'import/order': [
+        'error',
+        { groups: ['builtin', 'external', 'internal', 'parent', 'sibling'] },
+      ],
       quotes: ['error', 'single', { allowTemplateLiterals: true }],
+    },
+    settings: {
+      'import/resolver': {
+        typescript: {
+          project: 'tsconfig.app.json',
+        },
+      },
     },
   },
   eslintConfigPrettier,

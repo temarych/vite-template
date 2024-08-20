@@ -8,6 +8,7 @@ export default defineConfig({
       '@modules': '/src/modules',
       '@components': '/src/components',
       '@store': '/src/store',
+      '@theme': '/src/theme',
       '@typings': '/src/typings',
       '@utils': '/src/utils',
       '@': '/src',
