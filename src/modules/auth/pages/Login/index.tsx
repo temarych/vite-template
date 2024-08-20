@@ -3,9 +3,10 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useCallback } from 'react';
 import { Link } from '@components/Link';
+import { Button } from '@components/Button';
+import { PasswordField } from '@components/PasswordField';
 import { AuthContainer } from '@modules/auth/components/AuthContainer';
 import { LoginFormData, loginSchema } from '@modules/auth/schemas/loginSchema';
-import { Button } from '@components/Button';
 
 export const Login = () => {
   const {
@@ -30,9 +31,8 @@ export const Login = () => {
             helperText={errors.email?.message}
             {...register('email')}
           />
-          <TextField
+          <PasswordField
             label="Password"
-            type="password"
             error={!!errors.password}
             helperText={errors.password?.message}
             {...register('password')}

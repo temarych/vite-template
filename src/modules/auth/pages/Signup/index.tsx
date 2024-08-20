@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useCallback } from 'react';
 import { Link } from '@components/Link';
 import { Button } from '@components/Button';
+import { PasswordField } from '@components/PasswordField';
 import {
   SignupFormData,
   signupSchema,
@@ -39,9 +40,8 @@ export const Signup = () => {
             helperText={errors.fullName?.message}
             {...register('fullName')}
           />
-          <TextField
+          <PasswordField
             label="Password"
-            type="password"
             error={!!errors.password}
             helperText={errors.password?.message}
             {...register('password')}
