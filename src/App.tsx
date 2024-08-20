@@ -2,6 +2,7 @@ import { CssBaseline, ThemeProvider } from '@mui/material';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { useMemo } from 'react';
 import { selectMode } from '@store/features/theme';
+import { MainLayout } from '@components/MainLayout';
 import { Home } from '@modules/home';
 import { Login } from '@modules/auth/pages/Login';
 import { Signup } from '@modules/auth/pages/Signup';
@@ -25,7 +26,9 @@ export const App = () => {
             <Route path="/signup" element={<Signup />} />
           </Route>
 
-          <Route path="/" element={<Home />} />
+          <Route element={<MainLayout />}>
+            <Route path="/" element={<Home />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </ThemeProvider>
