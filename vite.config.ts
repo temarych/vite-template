@@ -10,6 +10,7 @@ export default defineConfig({
       '@store': '/src/store',
       '@theme': '/src/theme',
       '@typings': '/src/typings',
+      '@config': '/src/config',
       '@utils': '/src/utils',
       '@': '/src',
     },

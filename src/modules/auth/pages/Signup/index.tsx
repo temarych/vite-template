@@ -2,6 +2,10 @@ import { Divider, Stack, TextField, Typography } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useCallback } from 'react';
+import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
+import { useNavigate } from 'react-router-dom';
+import { routes } from '@config/routes';
+import { ApiErrorDto, useSignupMutation } from '@store/api';
 import { Link } from '@components/Link';
 import { Button } from '@components/Button';
 import { PasswordField } from '@components/PasswordField';
@@ -12,17 +16,38 @@ import {
 import { AuthContainer } from '@modules/auth/components/AuthContainer';
 
 export const Signup = () => {
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors },
   } = useForm<SignupFormData>({
     resolver: zodResolver(signupSchema),
   });
 
-  const handleSignup = useCallback((data: SignupFormData) => {
-    console.log(data);
-  }, []);
+  const [signup, { isLoading: isAuthenticating }] = useSignupMutation();
+
+  const handleError = useCallback(
+    (error: FetchBaseQueryError) => {
+      switch ((error.data as ApiErrorDto).code) {
+        case 'email-not-unique':
+          return setError('email', { message: 'Email already exists' });
+      }
+    },
+    [setError],
+  );
+
+  const handleSignup = useCallback(
+    (data: SignupFormData) => {
+      signup({ signupRequestDto: data })
+        .unwrap()
+        .then(() => navigate(routes.home()))
+        .catch(handleError);
+    },
+    [handleError, navigate, signup],
+  );
 
   return (
     <form onSubmit={handleSubmit(handleSignup)}>
@@ -34,12 +59,6 @@ export const Signup = () => {
             helperText={errors.email?.message}
             {...register('email')}
           />
-          <TextField
-            label="Full name"
-            error={!!errors.fullName}
-            helperText={errors.fullName?.message}
-            {...register('fullName')}
-          />
           <PasswordField
             label="Password"
             error={!!errors.password}
@@ -49,7 +68,12 @@ export const Signup = () => {
         </Stack>
 
         <Stack spacing={2}>
-          <Button size="large" variant="contained" type="submit">
+          <Button
+            size="large"
+            variant="contained"
+            type="submit"
+            loading={isAuthenticating}
+          >
             Sign up
           </Button>
           <Typography variant="body1" textAlign="center">

@@ -1,8 +1,10 @@
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { useMemo } from 'react';
+import { routes } from '@config/routes';
 import { selectMode } from '@store/features/theme';
 import { MainLayout } from '@components/MainLayout';
+import { AuthGuard } from '@components/AuthGuard';
 import { Home } from '@modules/home';
 import { Login } from '@modules/auth/pages/Login';
 import { Signup } from '@modules/auth/pages/Signup';
@@ -22,12 +24,14 @@ export const App = () => {
       <BrowserRouter>
         <Routes>
           <Route element={<AuthLayout />}>
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
+            <Route path={routes.login()} element={<Login />} />
+            <Route path={routes.signup()} element={<Signup />} />
           </Route>
 
-          <Route element={<MainLayout />}>
-            <Route path="/" element={<Home />} />
+          <Route element={<AuthGuard />}>
+            <Route element={<MainLayout />}>
+              <Route path={routes.home()} element={<Home />} />
+            </Route>
           </Route>
         </Routes>
       </BrowserRouter>

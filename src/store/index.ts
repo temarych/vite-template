@@ -2,12 +2,15 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { PersistConfig, persistReducer, persistStore } from 'redux-persist';
 import { useDispatch, useSelector, useStore } from 'react-redux';
 import storage from 'redux-persist/lib/storage';
+import { cacheResetMiddleware } from './middleware/cacheResetMiddleware';
 import { authSlice } from './features/auth';
 import { themeSlice } from './features/theme';
+import { api } from './api';
 
 export const rootReducer = combineReducers({
   [authSlice.name]: authSlice.reducer,
   [themeSlice.name]: themeSlice.reducer,
+  [api.reducerPath]: api.reducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
@@ -25,7 +28,7 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false,
-    }),
+    }).concat(api.middleware, cacheResetMiddleware.middleware),
 });
 
 export const persistor = persistStore(store);

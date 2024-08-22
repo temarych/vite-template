@@ -2,6 +2,10 @@ import { Divider, Stack, TextField, Typography } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
+import { routes } from '@config/routes';
+import { ApiErrorDto, useLoginMutation } from '@store/api';
 import { Link } from '@components/Link';
 import { Button } from '@components/Button';
 import { PasswordField } from '@components/PasswordField';
@@ -9,17 +13,40 @@ import { AuthContainer } from '@modules/auth/components/AuthContainer';
 import { LoginFormData, loginSchema } from '@modules/auth/schemas/loginSchema';
 
 export const Login = () => {
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors },
   } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
   });
 
-  const handleLogin = useCallback((data: LoginFormData) => {
-    console.log(data);
-  }, []);
+  const [login, { isLoading: isAuthenticating }] = useLoginMutation();
+
+  const handleError = useCallback(
+    (error: FetchBaseQueryError) => {
+      switch ((error.data as ApiErrorDto).code) {
+        case 'entity-not-found':
+          return setError('email', { message: 'User not found' });
+        case 'incorrect-password':
+          return setError('password', { message: 'Incorrect password' });
+      }
+    },
+    [setError],
+  );
+
+  const handleLogin = useCallback(
+    (data: LoginFormData) => {
+      login({ loginRequestDto: data })
+        .unwrap()
+        .then(() => navigate(routes.home()))
+        .catch(handleError);
+    },
+    [handleError, login, navigate],
+  );
 
   return (
     <form onSubmit={handleSubmit(handleLogin)}>
@@ -40,7 +67,12 @@ export const Login = () => {
         </Stack>
 
         <Stack spacing={2}>
-          <Button size="large" variant="contained" type="submit">
+          <Button
+            size="large"
+            variant="contained"
+            type="submit"
+            loading={isAuthenticating}
+          >
             Log in
           </Button>
           <Typography variant="body1" textAlign="center">

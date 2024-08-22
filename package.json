@@ -9,6 +9,7 @@
     "lint": "eslint .",
     "format": "prettier . --write",
     "preview": "vite preview",
+    "api:generate": "npx @rtk-query/codegen-openapi openapi.config.ts",
     "prepare": "husky"
   },
   "dependencies": {
@@ -19,6 +20,7 @@
     "@mui/lab": "^5.0.0-alpha.173",
     "@mui/material": "^5.16.7",
     "@reduxjs/toolkit": "^2.2.7",
+    "@rtk-query/codegen-openapi": "^1.2.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.52.2",
@@ -34,6 +36,8 @@
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.3.1",
     "cz-conventional-changelog": "^3.3.0",
+    "dotenv": "^16.4.5",
+    "esbuild-runner": "^2.2.2",
     "eslint": "^9.9.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-import-resolver-typescript": "^3.6.1",
