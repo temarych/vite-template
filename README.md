@@ -10,12 +10,9 @@ This Vite template provides a foundational boilerplate for building robust singl
 
 ## Installation
 
-1. Clone this repository.
-2. Install dependencies:
-
-```bash
-yarn
-```
+1. Clone this repository
+2. Install dependencies
+3. Generate API via RTK Query Codegen
 
 ## Scripts
 
