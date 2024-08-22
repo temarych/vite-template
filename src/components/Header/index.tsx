@@ -1,7 +1,10 @@
-import { styled, Typography } from '@mui/material';
+import { Stack, styled, Typography } from '@mui/material';
+import { Logout } from '@mui/icons-material';
 import { ModeToggle } from '@components/ModeToggle';
 import { useAppDispatch, useAppSelector } from '@store/index';
 import { selectMode, setMode } from '@store/features/theme';
+import { logout } from '@store/features/auth';
+import { Button } from '@components/Button';
 
 export const Header = () => {
   const dispatch = useAppDispatch();
@@ -13,30 +16,33 @@ export const Header = () => {
       <Header.Placeholder />
       <Header.Wrapper>
         <Header.Container>
-          <Header.LogoWrapper>
-            <Header.LogoIcon src="/vite.svg" />
+          <Stack direction="row" alignItems="center" spacing={1}>
+            <Header.Logo src="/vite.svg" />
             <Typography variant="h6">Vite Template</Typography>
-          </Header.LogoWrapper>
+          </Stack>
 
-          <ModeToggle
-            mode={mode}
-            onChange={(mode) => dispatch(setMode(mode))}
-          />
+          <Stack direction="row" alignItems="center" spacing={1}>
+            <Button
+              color="error"
+              startIcon={<Logout />}
+              onClick={() => dispatch(logout())}
+            >
+              Log out
+            </Button>
+
+            <ModeToggle
+              mode={mode}
+              onChange={(mode) => dispatch(setMode(mode))}
+            />
+          </Stack>
         </Header.Container>
       </Header.Wrapper>
     </>
   );
 };
 
-Header.LogoIcon = styled('img')`
+Header.Logo = styled('img')`
   width: 1.5rem;
-`;
-
-Header.LogoWrapper = styled('div')`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: ${({ theme }) => theme.spacing(1)};
 `;
 
 Header.Placeholder = styled('div')`
@@ -64,7 +70,6 @@ Header.Wrapper = styled('div')`
   background-color: ${({ theme }) => theme.palette.background.paper};
   position: fixed;
   height: 4rem;
+  width: 100%;
   top: 0;
-  left: 0;
-  right: 0;
 `;

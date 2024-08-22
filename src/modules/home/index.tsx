@@ -1,8 +1,8 @@
-import { Typography } from '@mui/material';
 import { MainContainer } from '@components/MainContainer';
+import { Banner } from './components/Banner';
 
 export const Home = () => (
   <MainContainer>
-    <Typography>Home</Typography>
+    <Banner />
   </MainContainer>
 );
